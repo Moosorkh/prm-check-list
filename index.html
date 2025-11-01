@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#667eea">
+    <title>PRM Check List Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            --bg-light: #ffffff;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        body.dark-mode {
+            --bg-light: #1f2937;
+            --text-dark: #f9fafb;
+            --text-light: #d1d5db;
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            transition: background 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: pan-y;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .controls-top {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            min-width: 250px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #1f2937;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        body.dark-mode .search-input {
+            background: rgba(55, 65, 81, 0.95);
+            color: #f9fafb;
+            border: 1px solid rgba(156, 163, 175, 0.2);
+        }
+
+        body.dark-mode .search-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: var(--shadow-lg);
+            background: white;
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 5px;
+            display: none;
+        }
+
+        .search-clear:hover {
+            color: #1f2937;
+        }
+
+        body.dark-mode .search-clear {
+            color: #9ca3af;
+        }
+
+        body.dark-mode .search-clear:hover {
+            color: #f9fafb;
+        }
+
+        .btn-top {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.95);
+            color: #1f2937;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-height: 48px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.dark-mode .btn-top {
+            background: rgba(75, 85, 99, 0.95);
+            color: #f9fafb;
+            border: 1px solid rgba(156, 163, 175, 0.2);
+        }
+
+        body.dark-mode .btn-top:hover {
+            background: rgba(107, 114, 128, 0.95);
+        }
+
+        .btn-top:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: white;
+        }
+
+        .btn-top.active {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: #374151;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color), #34d399);
+            transition: width 0.5s ease;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.5);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        body.dark-mode .stat-item {
+            background: rgba(55, 65, 81, 0.95);
+            border: 1px solid rgba(156, 163, 175, 0.2);
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .flashcard {
+            background: transparent;
+            min-height: 350px;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: var(--bg-light);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 350px;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+        }
+
+        body.dark-mode .card-front {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+            transform: rotateY(180deg);
+        }
+
+        body.dark-mode .card-back {
+            background: linear-gradient(135deg, #1f2937 0%, #422006 100%);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-indicator {
+            color: var(--text-light);
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .learned-badge {
+            background: var(--success-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: none;
+        }
+
+        .learned-badge.show {
+            display: inline-block;
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .question {
+            font-size: 1.5em;
+            color: var(--text-dark);
+            line-height: 1.5;
+            font-weight: 700;
+        }
+
+        .answer {
+            font-size: 1.4em;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .flip-hint {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9em;
+            margin-top: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 24px;
+            font-size: 1.05em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            min-height: 52px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn-prev,
+        .btn-next {
+            flex: 1;
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+        }
+
+        .btn-prev:hover:not(:disabled),
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-flip {
+            flex: 1.5;
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+        }
+
+        .btn-flip:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-learned {
+            flex: 1;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .btn-learned:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-learned.marked {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        ul,
+        ol {
+            text-align: left;
+            margin: 10px 0 10px 25px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #667eea;
+        }
+
+        body.dark-mode strong {
+            color: #a78bfa;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            color: #e83e8c;
+            font-size: 0.95em;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-tag {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        body.dark-mode .filter-tag {
+            background: rgba(55, 65, 81, 0.9);
+        }
+
+        .filter-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .filter-tag.active {
+            background: var(--info-color);
+            color: white;
+            border-color: var(--info-color);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 1.2em;
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        /* Landscape mode optimization for mobile */
+        @media (orientation: landscape) and (max-height: 600px) {
+
+            .flashcard,
+            .card-face {
+                min-height: 220px;
+            }
+
+            .card-face {
+                padding: 15px 20px;
+            }
+
+            .question {
+                font-size: 1.1em;
+            }
+
+            .answer {
+                font-size: 1em;
+            }
+
+            h1 {
+                font-size: 1.4em;
+                margin-bottom: 10px;
+            }
+
+            .stats {
+                margin-bottom: 10px;
+            }
+
+            .header {
+                margin-bottom: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+                flex-direction: row;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .header {
+                margin-bottom: 18px;
+            }
+
+            .search-container {
+                max-width: 100%;
+                min-width: 100%;
+            }
+
+            .search-input {
+                padding: 14px 45px 14px 18px;
+                font-size: 16px;
+            }
+
+            .controls-top {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn-top {
+                width: 100%;
+                padding: 14px 24px;
+                font-size: 1em;
+                min-height: 48px;
+            }
+
+            .flashcard,
+            .card-face {
+                min-height: 300px;
+            }
+
+            .card-face {
+                padding: 25px 20px;
+            }
+
+            .question {
+                font-size: 1.3em;
+                padding: 0 10px;
+                line-height: 1.4;
+            }
+
+            .answer {
+                font-size: 1.15em;
+                padding: 0 10px;
+                line-height: 1.5;
+            }
+
+            .stats {
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+
+            .stat-item {
+                padding: 12px 16px;
+                min-width: 100px;
+            }
+
+            .stat-value {
+                font-size: 1.5em;
+            }
+
+            .stat-label {
+                font-size: 0.85em;
+            }
+
+            .controls {
+                gap: 8px;
+            }
+
+            button {
+                padding: 14px 18px;
+                font-size: 1em;
+                min-height: 50px;
+            }
+
+            .dark-mode-toggle {
+                top: 12px;
+                right: 12px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.4em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 12px;
+            }
+
+            .header {
+                margin-bottom: 15px;
+            }
+
+            .search-input {
+                padding: 13px 45px 13px 16px;
+                font-size: 16px;
+            }
+
+            .search-clear {
+                right: 12px;
+                font-size: 1.2em;
+                padding: 6px;
+            }
+
+            .btn-top {
+                padding: 13px 20px;
+                font-size: 0.95em;
+                min-height: 48px;
+            }
+
+            .progress-container {
+                height: 8px;
+                margin-bottom: 12px;
+            }
+
+            .controls {
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            button {
+                padding: 13px 16px;
+                font-size: 0.95em;
+                min-height: 48px;
+            }
+
+            .btn-prev,
+            .btn-next {
+                flex: 1;
+                min-width: calc(50% - 4px);
+            }
+
+            .btn-flip,
+            .btn-learned {
+                flex: 1;
+                min-width: calc(50% - 4px);
+            }
+
+            .flashcard,
+            .card-face {
+                min-height: 280px;
+            }
+
+            .card-face {
+                padding: 20px 16px;
+            }
+
+            .card-header {
+                margin-bottom: 12px;
+            }
+
+            .card-indicator {
+                font-size: 0.85em;
+            }
+
+            .question {
+                font-size: 1.2em;
+                padding: 0 8px;
+                line-height: 1.4;
+            }
+
+            .answer {
+                font-size: 1.05em;
+                padding: 0 8px;
+                line-height: 1.5;
+            }
+
+            .flip-hint {
+                font-size: 0.8em;
+                margin-top: 10px;
+            }
+
+            .stats {
+                gap: 6px;
+                margin-bottom: 12px;
+            }
+
+            .stat-item {
+                padding: 10px 12px;
+                min-width: 85px;
+            }
+
+            .stat-value {
+                font-size: 1.3em;
+            }
+
+            .stat-label {
+                font-size: 0.75em;
+            }
+
+            .dark-mode-toggle {
+                top: 10px;
+                right: 10px;
+                width: 48px;
+                height: 48px;
+                font-size: 1.3em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                padding: 8px;
+            }
+
+            h1 {
+                font-size: 1.3em;
+                margin-bottom: 10px;
+            }
+
+            .header {
+                margin-bottom: 12px;
+            }
+
+            .search-input {
+                padding: 12px 42px 12px 14px;
+                font-size: 16px;
+            }
+
+            .btn-top {
+                padding: 12px 18px;
+                font-size: 0.9em;
+                min-height: 46px;
+            }
+
+            .progress-container {
+                height: 6px;
+                margin-bottom: 10px;
+            }
+
+            .stats {
+                gap: 5px;
+                margin-bottom: 10px;
+            }
+
+            .stat-item {
+                padding: 8px 10px;
+                min-width: 75px;
+            }
+
+            .stat-value {
+                font-size: 1.2em;
+            }
+
+            .stat-label {
+                font-size: 0.7em;
+            }
+
+            .flashcard,
+            .card-face {
+                min-height: 260px;
+            }
+
+            .card-face {
+                padding: 18px 14px;
+            }
+
+            .card-header {
+                margin-bottom: 10px;
+            }
+
+            .card-indicator {
+                font-size: 0.8em;
+            }
+
+            .learned-badge {
+                font-size: 0.7em;
+                padding: 3px 8px;
+            }
+
+            .question {
+                font-size: 1.1em;
+                padding: 0 6px;
+                line-height: 1.3;
+            }
+
+            .answer {
+                font-size: 0.95em;
+                padding: 0 6px;
+                line-height: 1.4;
+            }
+
+            .flip-hint {
+                font-size: 0.75em;
+                margin-top: 8px;
+            }
+
+            .controls {
+                gap: 6px;
+                margin-top: 12px;
+            }
+
+            button {
+                padding: 12px 14px;
+                font-size: 0.9em;
+                min-height: 46px;
+            }
+
+            .btn-prev,
+            .btn-next {
+                min-width: calc(50% - 3px);
+            }
+
+            .btn-flip,
+            .btn-learned {
+                min-width: calc(50% - 3px);
+            }
+
+            .dark-mode-toggle {
+                top: 8px;
+                right: 8px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.15em;
+            }
+
+            .stat-item {
+                padding: 7px 8px;
+                min-width: 70px;
+            }
+
+            .stat-value {
+                font-size: 1.1em;
+            }
+
+            .stat-label {
+                font-size: 0.65em;
+            }
+
+            .question {
+                font-size: 1.05em;
+            }
+
+            .answer {
+                font-size: 0.9em;
+            }
+
+            button {
+                padding: 11px 12px;
+                font-size: 0.85em;
+                min-height: 44px;
+            }
+
+            .flashcard,
+            .card-face {
+                min-height: 240px;
+            }
+
+            .card-face {
+                padding: 16px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙</button>
+
+    <div class="container">
+        <div class="header">
+            <h1>
+                <span>📋</span>
+                <span>PRM Check List Flashcards</span>
+            </h1>
+
+            <div class="controls-top">
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search flashcards..."
+                        oninput="searchCards()">
+                    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+                </div>
+                <button class="btn-top" id="shuffleBtn" onclick="toggleShuffle()">🔀 Shuffle</button>
+                <button class="btn-top" id="filterLearnedBtn" onclick="toggleFilterLearned()">⭐ Show Unlearned</button>
+                <button class="btn-top" onclick="resetProgress()">🔄 Reset Progress</button>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="currentCardNum">1</div>
+                <div class="stat-label">Current Card</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalCards">0</div>
+                <div class="stat-label">Total Cards</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="learnedCount">0</div>
+                <div class="stat-label">Learned</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="progressPercent">0%</div>
+                <div class="stat-label">Progress</div>
+            </div>
+        </div>
+
+        <div class="no-results" id="noResults">
+            <p>No cards found matching your search.</p>
+            <button class="btn-top" onclick="clearSearch()" style="margin-top: 20px;">Clear Search</button>
+        </div>
+
+        <div class="flashcard-container" id="flashcardContainer">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="card-face card-front">
+                    <div class="card-header">
+                        <div class="card-indicator" id="indicatorFront"></div>
+                        <div class="learned-badge" id="learnedBadgeFront">✓ Learned</div>
+                    </div>
+                    <div class="card-content" id="cardContentFront"></div>
+                    <div class="flip-hint">Click to flip ↻</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-header">
+                        <div class="card-indicator" id="indicatorBack"></div>
+                        <div class="learned-badge" id="learnedBadgeBack">✓ Learned</div>
+                    </div>
+                    <div class="card-content" id="cardContentBack"></div>
+                    <div class="flip-hint">Click to flip ↻</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-prev" onclick="prevCard()" id="prevBtn">← Prev</button>
+            <button class="btn-learned" onclick="toggleLearned()" id="learnedBtn">Mark as Learned</button>
+            <button class="btn-flip" onclick="flipCard()">Flip Card</button>
+            <button class="btn-next" onclick="nextCard()" id="nextBtn">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        const allFlashcards = [
+            {
+                question: "CC Processing",
+                answer: "Credit card processing"
+            },
+            {
+                question: "ISO",
+                answer: "Independent sales organization<br>Example: Us"
+            },
+            {
+                question: "Acquiring Bank",
+                answer: "Partnering bank sponsoring a merchant into the Visa/Mastercard network<br>Example: EVO, Merrick, Avidia, Paycosmos, FNB Albany, Select"
+            },
+            {
+                question: "Platform",
+                answer: "Authorizing/capturing network issuing platform<br>Example: TSYS, First Data"
+            },
+            {
+                question: "Agent",
+                answer: "Brings us merchant deals, 1099 worker"
+            },
+            {
+                question: "Recruiters",
+                answer: "In-house employees, bring in/assist agents/ISO groups"
+            },
+            {
+                question: "Risk Dept.",
+                answer: "Reserves, funds, review accounts"
+            },
+            {
+                question: "Underwriting Dept.",
+                answer: "Review incoming deals for approval, provide CCLs"
+            },
+            {
+                question: "CS Dept.",
+                answer: "Client Services Department - Assisting merchants"
+            },
+            {
+                question: "Finance Dept.",
+                answer: "Residuals and payroll"
+            },
+            {
+                question: "Dept. E-mail Addresses",
+                answer: "support@expitrans.com, agentsupport@expitrans.com, risk@expitrans.com, underwriting@expitrans.com"
+            },
+            {
+                question: "Pipeline",
+                answer: "Move accounts as they progress<br>Shows where the deal is"
+            },
+            {
+                question: "Integration",
+                answer: "In relation to the ISV department, integrations with other ISOs"
+            },
+            {
+                question: "Terminal Placement",
+                answer: "TPF form allows us to offer a up to two free replacements a year"
+            },
+            {
+                question: "Equipment Costs",
+                answer: "Terminals vary in pricing and deposit (See equipment compatibility sheet)"
+            },
+            {
+                question: "Shipping Costs",
+                answer: "Expitrans covers ground shipping and overnight if it is a replacement and the merchant is unable to process"
+            },
+            {
+                question: "Ticket Standards",
+                answer: "Open tickets - 1 day<br>Waiting on tickets - 3 days"
+            },
+            {
+                question: "Federal Tax ID",
+                answer: "Provided by the IRS, unique to each merchant (EIN)"
+            },
+            {
+                question: "Legal Name",
+                answer: "Not the DBA, legal entity<br>Example: The Cheesecake Factory Corporation"
+            },
+            {
+                question: "DBA",
+                answer: "Doing business as:<br>Example: The Cheesecake Factory"
+            },
+            {
+                question: "Principal",
+                answer: "The person that has the ability to sign the contract (typically the owner)"
+            },
+            {
+                question: "Corp Types",
+                answer: "Corporation, LLC, Sole prop, Partnership"
+            },
+            {
+                question: "Card Present Vs. Not Present",
+                answer: "Card present: Swiped, contactless (less risk)<br>Card not present: Keyed in transaction (more liability)"
+            },
+            {
+                question: "MOTO",
+                answer: "Mail order telephone order (keyed in)"
+            },
+            {
+                question: "E-Commerce",
+                answer: "Online, merchant will need a gateway (NMI, Auth.net, ect)"
+            },
+            {
+                question: "Reserve",
+                answer: "Non interest account held by processor, example portion of batch to offset risk on account."
+            },
+            {
+                question: "Funding Times",
+                answer: "Normal funding is 2 days"
+            },
+            {
+                question: "Authorization",
+                answer: "An approval from a card issuer that the customer has sufficient funds to cover the cost of the transaction"
+            },
+            {
+                question: "Capture",
+                answer: "Turns an authorization into a sale once it has been captured"
+            },
+            {
+                question: "Batch",
+                answer: "merchant processing all of its authorized credit card transactions for the day after the close of the business day, or at a time determined by the credit card processor."
+            },
+            {
+                question: "Settlement",
+                answer: "Occurs after batch, acquiring funds from issuing banks"
+            },
+            {
+                question: "Pricing Models",
+                answer: "Interchange, tiered, Cash discount, flat rate"
+            },
+            {
+                question: "Interchange",
+                answer: "Card brand fees, cost of doing business passes on to the merchant directly, fixed markup, never negative"
+            },
+            {
+                question: "Tiered",
+                answer: "Bill rates, not passing to merchants, we set it. Expenses may vary."
+            },
+            {
+                question: "Cash Discount",
+                answer: "Flat rate on daily discount. Trying to match pricing to front end convenience fee"
+            },
+            {
+                question: "Flat Rate",
+                answer: "One set pricing, typically % per item"
+            },
+            {
+                question: "Card Brand Fees",
+                answer: "This goes to the card brand<br>Example: Visa, Mastercard, Discover, Credit, Debit"
+            },
+            {
+                question: "Processor Fees",
+                answer: "We're billing, no fixed cost"
+            },
+            {
+                question: "Card Brands",
+                answer: "Visa, Mastercard, Discover"
+            },
+            {
+                question: "PCI Compliance",
+                answer: "Payment card industry compliance: safe card processing procedures"
+            },
+            {
+                question: "Chargebacks / Retrieval",
+                answer: "Retrieval: Request for information<br>Chargeback: Request for money back"
+            },
+            {
+                question: "Monthly Minimum",
+                answer: "Minimum amount of money we will bill on a statement"
+            },
+            {
+                question: "Daily Discount vs. Month End Billing",
+                answer: "Daily discount: fees taken out from each batch<br>MEB: fees taken out at the end of the month"
+            },
+            {
+                question: "Next Day Funding",
+                answer: "Merchants can receive funds the next day as long as they batch out before the cutoff time. (This has to be requested/approved) This does not apply on bank holidays/weekends.<br>Merrick cutoff: 8 PM PST<br>Avidia cutoff: 7 PM PST"
+            },
+            {
+                question: "Early Termination Fee",
+                answer: "If a merchant cancels within the 3 year contract and it is applicable, we can charge a $395 ETF. If the account was terminated by Risk there will be a calculated ETF that Risk will bill after the 180 no chargeback/dispute period."
+            },
+            {
+                question: "Equipment Return",
+                answer: "A merchant has 10 days to return equipment once the cancellation form has been submitted to CS"
+            },
+            {
+                question: "Billing Methods",
+                answer: "Statement, ACH, greenscreen, credit, bill agent"
+            },
+            {
+                question: "ACH",
+                answer: "Automated clearing house"
+            },
+            {
+                question: "Cancellations",
+                answer: "When a merchant requests to cancel we send the cancellation form with our terms via email (create a cancellation request ticket). Once the cancellation form has been completed and returned with an ID, we can proceed with closure (create a new closure ticket)."
+            },
+            {
+                question: "QA",
+                answer: "Quality Assurance - We QA tickets to ensure we did the proper procedure for each ticket"
+            },
+            {
+                question: "Activations",
+                answer: "Post approval to processing, when the merchant starts processing"
+            },
+            {
+                question: "High Ticket",
+                answer: "The max amount a merchant can process in one transaction"
+            },
+            {
+                question: "Average Ticket",
+                answer: "The average amount a merchant processes per transaction"
+            },
+            {
+                question: "Monthly Volume",
+                answer: "The max amount a merchant can process each month"
+            },
+            {
+                question: "Merchant Application",
+                answer: "This is the contract"
+            },
+            {
+                question: "DDA",
+                answer: "Direct deposit account"
+            },
+            {
+                question: "Reporting",
+                answer: "CBOS,( mreports, batch, auth, statements etc)"
+            },
+            {
+                question: "MCC",
+                answer: "Merchant category code"
+            },
+            {
+                question: "Reserve Communication",
+                answer: "Agents/merchants will request to know their reserve balance. CS requests the reserve balance from Risk. If Risk allows CS to provide the reserve balance it will be notated. In some cases Risk will not release the reserve amount."
+            },
+            {
+                question: "Chargeback Comm.",
+                answer: "When merchants request assistance with chargeback cases we can provide the chargeback department contact information if it is (Merrick/Avidia). We can also look up case #s and provide it to the merchant."
+            },
+            {
+                question: "Conversions",
+                answer: "Migrating a merchant account to a different acquirer<br>Example: EVO to Merrick"
+            },
+            {
+                question: "Stand Alone Terminal",
+                answer: "Device that customers can complete payment on and does not require anything else<br>Example: Z8, Z9, QD4, PAXS80, ect"
+            },
+            {
+                question: "Pin Pads",
+                answer: "Device that connects to a stand alone terminal or a POS. This device has no brain.<br>Example: Z6,"
+            },
+            {
+                question: "Gateways",
+                answer: "A virtual terminal<br>Example: NMI, Auth.net, Simple swipe LOL, Troute"
+            },
+            {
+                question: "VAR Sheets",
+                answer: "Value-added resellers sheet - file containing vital processing information such as a MID, MCC, V#, and relationship with acquirer"
+            },
+            {
+                question: "POS System",
+                answer: "Point of Sale System<br>Example: smarttab"
+            },
+            {
+                question: "Software vs. Hardware",
+                answer: "Software: Internal, programming<br>Hardware: Physical/visual, terminal"
+            },
+            {
+                question: "Programming",
+                answer: "Altering/updating the software"
+            },
+            {
+                question: "Deployment Cutoff",
+                answer: "Deployment tickets must be submitted before 3 PM. However there is no cutoff for SmartTab accounts."
+            },
+            {
+                question: "Equipment Connection Types",
+                answer: "WIFI, ethernet, GPRS, Dial (many terminals do not have this capability anymore)"
+            },
+            {
+                question: "Vendors",
+                answer: "Companies that sell equiptment<br>Example: Dejavoo"
+            },
+            {
+                question: "Manufacturers",
+                answer: "Dejavoo, PAX, SwipeSimple"
+            },
+            {
+                question: "Encryptions",
+                answer: "If a device is encrypted it will allow a merchant to process pin debit or EBT transactions. It must be encrypted with the merchants' acquiring bank"
+            },
+            {
+                question: "Troubleshooting",
+                answer: "Attempting different methods to resolve a problem or issue that the merchant is having. This may include reaching out to the manufacturer or replacing a terminal."
+            },
+            {
+                question: "PRM Training",
+                answer: "Meeting with PRM Manager"
+            },
+            {
+                question: "PRM Training",
+                answer: "Training with Finance"
+            },
+            {
+                question: "PRM Training",
+                answer: "Training with Underwriting"
+            }
+        ];
+
+        let flashcards = [...allFlashcards];
+        let currentCard = 0;
+        let isFlipped = false;
+        let learnedCards = new Set();
+        let isShuffled = false;
+        let filterLearned = false;
+        let searchQuery = '';
+
+        // Load saved progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem('prmFlashcardsProgress');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    learnedCards = new Set(data.learned || []);
+                } catch (e) {
+                    console.error('Error loading progress:', e);
+                }
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const data = {
+                learned: Array.from(learnedCards)
+            };
+            localStorage.setItem('prmFlashcardsProgress', JSON.stringify(data));
+        }
+
+        // Load dark mode preference
+        function loadDarkMode() {
+            const darkMode = localStorage.getItem('prmDarkMode');
+            if (darkMode === 'true') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.dark-mode-toggle').textContent = '☀️';
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.querySelector('.dark-mode-toggle').textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('prmDarkMode', isDark);
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function toggleShuffle() {
+            isShuffled = !isShuffled;
+            const btn = document.getElementById('shuffleBtn');
+
+            if (isShuffled) {
+                flashcards = shuffleArray(filterCards(allFlashcards));
+                btn.classList.add('active');
+            } else {
+                flashcards = filterCards(allFlashcards);
+                btn.classList.remove('active');
+            }
+
+            currentCard = 0;
+            isFlipped = false;
+            updateCard();
+        }
+
+        function toggleFilterLearned() {
+            filterLearned = !filterLearned;
+            const btn = document.getElementById('filterLearnedBtn');
+
+            if (filterLearned) {
+                btn.classList.add('active');
+                btn.textContent = '⭐ Show All';
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '⭐ Show Unlearned';
+            }
+
+            applyFilters();
+        }
+
+        function filterCards(cards) {
+            let filtered = [...cards];
+
+            // Apply search filter
+            if (searchQuery) {
+                filtered = filtered.filter(card => {
+                    const searchLower = searchQuery.toLowerCase();
+                    return card.question.toLowerCase().includes(searchLower) ||
+                        card.answer.toLowerCase().includes(searchLower);
+                });
+            }
+
+            // Apply learned filter
+            if (filterLearned) {
+                filtered = filtered.filter((_, idx) => !learnedCards.has(allFlashcards.indexOf(cards[idx])));
+            }
+
+            return filtered;
+        }
+
+        function applyFilters() {
+            flashcards = filterCards(allFlashcards);
+
+            if (isShuffled) {
+                flashcards = shuffleArray(flashcards);
+            }
+
+            currentCard = 0;
+            isFlipped = false;
+
+            const container = document.getElementById('flashcardContainer');
+            const noResults = document.getElementById('noResults');
+
+            if (flashcards.length === 0) {
+                container.style.display = 'none';
+                noResults.classList.add('show');
+            } else {
+                container.style.display = 'block';
+                noResults.classList.remove('show');
+                updateCard();
+            }
+        }
+
+        function searchCards() {
+            const input = document.getElementById('searchInput');
+            searchQuery = input.value.trim();
+
+            const clearBtn = document.getElementById('searchClear');
+            clearBtn.style.display = searchQuery ? 'block' : 'none';
+
+            applyFilters();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            searchQuery = '';
+            document.getElementById('searchClear').style.display = 'none';
+            applyFilters();
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all your progress? This will mark all cards as unlearned.')) {
+                learnedCards.clear();
+                saveProgress();
+                updateCard();
+                updateStats();
+            }
+        }
+
+        function getCardIndex(card) {
+            return allFlashcards.findIndex(c => c.question === card.question && c.answer === card.answer);
+        }
+
+        function updateCard() {
+            if (flashcards.length === 0) return;
+
+            const card = flashcards[currentCard];
+            const cardIndex = getCardIndex(card);
+            const isLearned = learnedCards.has(cardIndex);
+
+            // Update both front and back indicators
+            const indicator = `Card ${currentCard + 1} of ${flashcards.length}`;
+            document.getElementById('indicatorFront').textContent = indicator;
+            document.getElementById('indicatorBack').textContent = indicator;
+
+            // Update learned badges
+            const learnedBadgeFront = document.getElementById('learnedBadgeFront');
+            const learnedBadgeBack = document.getElementById('learnedBadgeBack');
+            if (isLearned) {
+                learnedBadgeFront.classList.add('show');
+                learnedBadgeBack.classList.add('show');
+            } else {
+                learnedBadgeFront.classList.remove('show');
+                learnedBadgeBack.classList.remove('show');
+            }
+
+            // Update content
+            document.getElementById('cardContentFront').innerHTML = `<div class="question">${card.question}</div>`;
+            document.getElementById('cardContentBack').innerHTML = `<div class="answer">${card.answer}</div>`;
+
+            // Update learned button
+            const learnedBtn = document.getElementById('learnedBtn');
+            if (isLearned) {
+                learnedBtn.classList.add('marked');
+                learnedBtn.textContent = '✓ Learned';
+            } else {
+                learnedBtn.classList.remove('marked');
+                learnedBtn.textContent = 'Mark as Learned';
+            }
+
+            // Reset flip state
+            if (isFlipped) {
+                document.getElementById('flashcard').classList.remove('flipped');
+                isFlipped = false;
+            }
+
+            updateButtons();
+            updateStats();
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentCard === 0;
+            document.getElementById('nextBtn').disabled = currentCard === flashcards.length - 1;
+        }
+
+        function updateStats() {
+            document.getElementById('currentCardNum').textContent = flashcards.length > 0 ? currentCard + 1 : 0;
+            document.getElementById('totalCards').textContent = flashcards.length;
+            document.getElementById('learnedCount').textContent = learnedCards.size;
+
+            const progress = allFlashcards.length > 0 ? Math.round((learnedCards.size / allFlashcards.length) * 100) : 0;
+            document.getElementById('progressPercent').textContent = `${progress}%`;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        function flipCard() {
+            if (flashcards.length === 0) return;
+            isFlipped = !isFlipped;
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (currentCard < flashcards.length - 1) {
+                currentCard++;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentCard > 0) {
+                currentCard--;
+                updateCard();
+            }
+        }
+
+        function toggleLearned() {
+            if (flashcards.length === 0) return;
+
+            const card = flashcards[currentCard];
+            const cardIndex = getCardIndex(card);
+
+            if (learnedCards.has(cardIndex)) {
+                learnedCards.delete(cardIndex);
+            } else {
+                learnedCards.add(cardIndex);
+            }
+
+            saveProgress();
+            updateCard();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return; // Don't trigger when typing in search
+
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === 'ArrowLeft') prevCard();
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                flipCard();
+            }
+            if (e.key === 'l' || e.key === 'L') {
+                e.preventDefault();
+                toggleLearned();
+            }
+        });
+
+        // Enhanced touch swipe support with visual feedback
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+        let isSwiping = false;
+
+        const flashcardElement = document.getElementById('flashcard');
+
+        flashcardElement.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+            isSwiping = false;
+        }, { passive: true });
+
+        flashcardElement.addEventListener('touchmove', (e) => {
+            if (!touchStartX) return;
+
+            const currentX = e.changedTouches[0].screenX;
+            const currentY = e.changedTouches[0].screenY;
+            const diffX = touchStartX - currentX;
+            const diffY = touchStartY - currentY;
+
+            // Check if horizontal swipe (not vertical scroll)
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+                isSwiping = true;
+                e.preventDefault(); // Prevent vertical scroll during swipe
+            }
+        }, { passive: false });
+
+        flashcardElement.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
+
+            if (isSwiping) {
+                handleSwipe();
+            }
+
+            touchStartX = 0;
+            touchStartY = 0;
+            isSwiping = false;
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 75;
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+
+            // Only trigger if horizontal swipe is dominant
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
+                // Add haptic feedback if available
+                if (window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate(10);
+                }
+
+                if (diffX > 0) {
+                    nextCard(); // Swipe left for next
+                } else {
+                    prevCard(); // Swipe right for previous
+                }
+            }
+        }
+
+        // Prevent double-tap zoom on buttons and cards
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Initialize
+        loadProgress();
+        loadDarkMode();
+        updateCard();
+        updateStats();
+    </script>
+</body>
+
+</html>
